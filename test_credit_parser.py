@@ -16,7 +16,9 @@ Usage:
 import csv
 import os
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 
 from credit_parser import (
     build_author_ref_patterns,
@@ -65,6 +67,65 @@ class TestCreditParser(unittest.TestCase):
         cls.manuscripts_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "manuscripts"
         )
+
+    def test_incomplete_taxonomy_is_rejected(self):
+        """A partial live page must never be treated as the official taxonomy."""
+        from credit_tool.taxonomy import fetch_credit_roles
+
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *_): return None
+            def read(self):
+                return b'<a href="https://credit.niso.org/contributor-roles/example/">Example</a>'
+
+        with patch("credit_tool.taxonomy.urlopen", return_value=Response()):
+            actual = fetch_credit_roles(use_cache=False)
+        expected = None
+        record_test("Reject incomplete live taxonomy", "one role on landing page", expected, actual)
+        self.assertIsNone(actual)
+
+    def test_ambiguous_initials_are_not_guessed(self):
+        actual = find_author_positions("J.D. designed the study", ["Jane Doe", "John Davis"])
+        expected = []
+        record_test("Reject ambiguous author initials", "J.D. with two matching byline authors", expected, actual)
+        self.assertEqual(actual, expected)
+
+    def test_contribution_inside_acknowledgements(self):
+        from credit_tool.statements import parse_contributions
+        paragraphs = ["Title", "Jane Doe, Anil Bose", "Acknowledgements",
+                      "Jane Doe: Conceptualization. Anil Bose: Software.",
+                      "Funding", "Grant statement"]
+        section, _ = find_contribution_section(paragraphs)
+        actual = parse_contributions(section, ["Jane Doe", "Anil Bose"], self.role_names)
+        expected = [("Jane Doe", ["Conceptualization"]), ("Anil Bose", ["Software"])]
+        record_test("Contribution within acknowledgements", paragraphs[2:5], expected, actual)
+        self.assertEqual(actual, expected)
+
+    def test_cli_csv_header_and_live_roles(self):
+        from credit_tool.pipeline import run
+        with tempfile.TemporaryDirectory() as directory:
+            output = os.path.join(directory, "roles.csv")
+            run(self.manuscripts_dir, output)
+            with open(output, newline="", encoding="utf-8") as stream:
+                reader = csv.DictReader(stream)
+                actual = (reader.fieldnames, all(row["credit_role"] == "INVALID" or
+                          row["credit_role"] in self.role_names for row in reader))
+        expected = (["file", "author", "credit_role"], True)
+        record_test("CSV schema and live-role membership", "all supplied manuscripts", expected, actual)
+        self.assertEqual(actual, expected)
+
+    def test_failed_live_fetch_yields_only_invalid(self):
+        from credit_tool.pipeline import run
+        with tempfile.TemporaryDirectory() as directory:
+            output = os.path.join(directory, "roles.csv")
+            with patch("credit_tool.pipeline.fetch_credit_roles", return_value=None):
+                run(self.manuscripts_dir, output)
+            with open(output, newline="", encoding="utf-8") as stream:
+                rows = list(csv.DictReader(stream))
+        actual = (bool(rows), all(row["credit_role"] == "INVALID" for row in rows))
+        expected = (True, True)
+        record_test("Live fetch failure emits INVALID", "all supplied manuscripts", expected, actual)
+        self.assertEqual(actual, expected)
 
     # --------------------------------------------------------------------------
     # 1. Dynamic Taxonomy Scraping Tests
@@ -630,7 +691,7 @@ def generate_test_report_csv(output_path="test_report.csv"):
     """Write the accumulated test results into test_report.csv."""
     fieldnames = ["checks", "input", "expected", "actual", "result"]
     with open(output_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for row in TEST_REPORT_ROWS:
             writer.writerow(row)

@@ -1,9 +1,14 @@
 checks,input,expected,actual,result
+Reject ambiguous author initials,J.D. with two matching byline authors,[],[],PASS
 Author cleansing: strip 'Dr.' prefix and affiliation/footnote '1*',Dr. Jane Doe1*,Jane Doe,Jane Doe,PASS
 Author cleansing: strip 'Prof.' prefix and affiliation/footnote '2†',Prof. Anil Bose2†,Anil Bose,Anil Bose,PASS
 Author cleansing: leave standard name unchanged,Raj Patel,Raj Patel,Raj Patel,PASS
+CSV schema and live-role membership,all supplied manuscripts,"(['file', 'author', 'credit_role'], True)","(['file', 'author', 'credit_role'], True)",PASS
 Initials resolution: compact uppercase initials mapped to full byline names,AB and CD wrote and edited the paper. EF supervised the project.,"[('Anil Bose', 'AB'), ('Carla Diaz', 'CD'), ('Erin Fox', 'EF')]","[('Anil Bose', 'AB'), ('Carla Diaz', 'CD'), ('Erin Fox', 'EF')]",PASS
+Contribution within acknowledgements,"['Acknowledgements', 'Jane Doe: Conceptualization. Anil Bose: Software.', 'Funding']","[('Jane Doe', ['Conceptualization']), ('Anil Bose', ['Software'])]","[('Jane Doe', ['Conceptualization']), ('Anil Bose', ['Software'])]",PASS
 Initials resolution: dotted initials mapped to full byline names,J.D.: Conceptualization. A.B.: Software.,"[('Jane Doe', 'J.D.'), ('Anil Bose', 'A.B.')]","[('Jane Doe', 'J.D.'), ('Anil Bose', 'A.B.')]",PASS
+Live fetch failure emits INVALID,all supplied manuscripts,"(True, True)","(True, True)",PASS
+Reject incomplete live taxonomy,one role on landing page,None,None,PASS
 Dynamic fetch: exactly 14 official CRediT roles from credit.niso.org,https://credit.niso.org/,14,14,PASS
 Dynamic fetch: definitions extracted from individual role pages,credit.niso.org/contributor-roles/*,14,14,PASS
 Dynamic fetch: HTML entities cleanly decoded in role names,CRediT raw HTML names,False,False,PASS

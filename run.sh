@@ -25,8 +25,12 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
-# The parser uses only Python standard library (urllib, xml.etree, zipfile, etc.)
-# No external dependencies required. If pip packages were needed, we would install them here.
+if ! python3 -c 'import sys; sys.exit(sys.version_info < (3, 12))'; then
+    echo "Python 3.12 or newer is required." >&2
+    exit 1
+fi
+
+# The parser uses only the Python standard library; there is nothing to install.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 python3 "${SCRIPT_DIR}/credit_parser.py" "$INPUT_FOLDER" "$OUTPUT_CSV"
