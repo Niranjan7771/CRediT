@@ -1,0 +1,78 @@
+file,author,credit_role
+merged_01.docx,Jane Doe,Conceptualization
+merged_01.docx,Jane Doe,Writing – original draft
+merged_01.docx,Anil Bose,Methodology
+merged_01.docx,Anil Bose,Software
+merged_02.docx,Jane Doe,Conceptualization
+merged_02.docx,Jane Doe,Funding acquisition
+merged_02.docx,Raj Patel,Investigation
+merged_02.docx,Raj Patel,Data curation
+merged_02.docx,Raj Patel,Visualization
+merged_03.docx,Maria Lopez,Supervision
+merged_03.docx,Maria Lopez,Project administration
+merged_03.docx,Maria Lopez,Resources
+merged_03.docx,Tom Reid,Validation
+merged_03.docx,Tom Reid,Writing – review & editing
+merged_04.docx,Ken Ito,Software
+merged_04.docx,Ken Ito,Validation
+merged_04.docx,Lena Berg,Formal analysis
+merged_04.docx,Lena Berg,Writing – original draft
+merged_04.docx,Omar Nasser,Resources
+merged_05.docx,Jane Doe,Conceptualization
+merged_05.docx,Jane Doe,Formal analysis
+merged_05.docx,Tom Reid,Investigation
+merged_05.docx,Tom Reid,Writing – original draft
+merged_06.docx,Jane Doe,Conceptualization
+merged_06.docx,Jane Doe,Writing – original draft
+merged_06.docx,Anil Bose,Investigation
+merged_07.docx,Anil Bose,Writing – original draft
+merged_07.docx,Anil Bose,Writing – review & editing
+merged_07.docx,Carla Diaz,Writing – original draft
+merged_07.docx,Carla Diaz,Writing – review & editing
+merged_07.docx,Erin Fox,Supervision
+merged_08.docx,Kai Lund,Software
+merged_08.docx,Kai Lund,Validation
+merged_08.docx,Mira Nair,Visualization
+merged_08.docx,Paul Quinn,Methodology
+merged_08.docx,Paul Quinn,Investigation
+merged_09.docx,Sara Khan,INVALID
+merged_09.docx,Leo Moreau,INVALID
+merged_10.docx,Rita Tran,Writing – original draft
+merged_10.docx,Rita Tran,Writing – review & editing
+merged_10.docx,Rita Tran,Formal analysis
+merged_10.docx,Rita Tran,Data curation
+merged_10.docx,Sam Ward,INVALID
+merged_11.docx,Mei Tanaka,INVALID
+merged_11.docx,Fatima Novak,INVALID
+merged_11.docx,Priya Khan,INVALID
+merged_12.docx,,INVALID
+merged_13.docx,Lena Petrova,INVALID
+merged_13.docx,Hassan Novak,INVALID
+merged_13.docx,Vikram Ali,INVALID
+merged_14.docx,Jane Doe,Investigation
+merged_14.docx,Anil Bose,Supervision
+merged_15.docx,Jane Doe,Conceptualization
+merged_15.docx,Jane Doe,Methodology
+merged_15.docx,Anil Bose,Supervision
+merged_16.docx,Anil Bose,Conceptualization
+merged_16.docx,Anil Bose,Methodology
+merged_16.docx,Jane Doe,Writing – original draft
+merged_17.docx,Jane Doe,Conceptualization
+merged_17.docx,Jane Doe,Investigation
+merged_17.docx,Jane Doe,Writing – original draft
+merged_17.docx,Anil Bose,Conceptualization
+merged_17.docx,Anil Bose,Investigation
+merged_17.docx,Anil Bose,Writing – original draft
+merged_18.docx,Erin Fox,Formal analysis
+merged_18.docx,Gus Hall,INVALID
+merged_19.docx,Mia Park,Funding acquisition
+merged_19.docx,Mia Park,Project administration
+merged_19.docx,Sven Roth,Resources
+merged_19.docx,Sven Roth,Supervision
+merged_20.docx,Hana Sato,Conceptualization
+merged_20.docx,Hana Sato,Formal analysis
+merged_20.docx,Hana Sato,Writing – original draft
+merged_20.docx,Ivan Petrov,Software
+merged_20.docx,Ivan Petrov,Validation
+merged_20.docx,Julia Costa,Visualization
+merged_20.docx,Julia Costa,Writing – review & editing
